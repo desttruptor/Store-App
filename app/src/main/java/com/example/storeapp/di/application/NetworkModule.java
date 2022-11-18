@@ -1,9 +1,6 @@
 package com.example.storeapp.di.application;
 
-import static retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory.create;
-
-import androidx.annotation.NonNull;
-
+import com.example.storeapp.data.network.interceptors.LoggingInterceptor;
 import com.example.storeapp.utils.Constants;
 
 import java.util.concurrent.TimeUnit;
@@ -17,16 +14,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
+
     @Provides
     @ApplicationScope
-    public OkHttpClient provideOkHttpClient() {
+    public LoggingInterceptor provideLoggingInterceptor() {
+        return new LoggingInterceptor();
+    }
+
+    @Provides
+    @ApplicationScope
+    public OkHttpClient provideOkHttpClient(LoggingInterceptor loggingInterceptor) {
         return new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
                 .callTimeout(10L, TimeUnit.SECONDS)
                 .connectTimeout(10L, TimeUnit.SECONDS)
                 .build();
     }
 
     @Provides
+    @ApplicationScope
     public Retrofit provideRetrofit(OkHttpClient client) {
         var factory = RxJava3CallAdapterFactory.create();
         return new Retrofit.Builder()
