@@ -2,15 +2,27 @@ package com.example.storeapp.ui;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.storeapp.databinding.ActivityMainBinding;
+import com.example.storeapp.ui.fragments.AppsListFragment;
 
-import com.example.storeapp.R;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DaggerAppCompatActivity {
+
+    private ActivityMainBinding activityMainBinding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(activityMainBinding.getRoot());
+        setUpFragment();
+    }
+
+    private void setUpFragment () {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(activityMainBinding.fragmentContainer.getId(), AppsListFragment.newInstance())
+                .commit();
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Store App</string>
+    <string name="something_wrong_error">Что-то пошло не так :(</string>
 </resources>

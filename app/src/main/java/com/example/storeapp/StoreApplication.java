@@ -1,29 +1,16 @@
 package com.example.storeapp;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-
-import com.example.storeapp.di.application.AppComponent;
-import com.example.storeapp.di.application.AppModule;
 import com.example.storeapp.di.application.DaggerAppComponent;
-import com.example.storeapp.di.application.NetworkModule;
 
-public class StoreApplication extends Application {
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
 
-    private AppComponent daggerAppComponent;
+public class StoreApplication extends DaggerApplication {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        daggerAppComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .networkModule(new NetworkModule())
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector () {
+        return DaggerAppComponent.builder()
+                .application(this)
                 .build();
-    }
-
-    @NonNull
-    public AppComponent getDaggerAppComponent() {
-        return daggerAppComponent;
     }
 }
