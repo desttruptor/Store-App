@@ -13,7 +13,7 @@ public class CommonViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     private final CustomSupplier<? extends ViewModel> viewModelSupplier;
 
-    public CommonViewModelFactory(
+    public CommonViewModelFactory (
             @NonNull Class<? extends ViewModel> viewModelClass,
             @NonNull CustomSupplier<? extends ViewModel> viewModelSupplier
     ) {
@@ -23,7 +23,7 @@ public class CommonViewModelFactory implements ViewModelProvider.Factory {
 
     @NonNull
     @Override
-    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+    public <T extends ViewModel> T create (@NonNull Class<T> modelClass) {
         if (!viewModelClass.isAssignableFrom(modelClass)) {
             throw new IllegalArgumentException("Invalid viewModel class");
         }

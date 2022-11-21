@@ -1,6 +1,7 @@
 package com.example.storeapp.di.application;
 
 import com.example.storeapp.data.network.AvailableAppsApi;
+import com.example.storeapp.data.network.DownloadAppApi;
 import com.example.storeapp.data.network.interceptors.LoggingInterceptor;
 import com.example.storeapp.utils.Constants;
 
@@ -48,5 +49,11 @@ public class NetworkModule {
     @Provides
     public AvailableAppsApi provideAvailableAppsApi (Retrofit retrofit) {
         return retrofit.create(AvailableAppsApi.class);
+    }
+
+    @ApplicationScope
+    @Provides
+    public DownloadAppApi provideDownloadAppApi (Retrofit retrofit) {
+        return retrofit.create(DownloadAppApi.class);
     }
 }

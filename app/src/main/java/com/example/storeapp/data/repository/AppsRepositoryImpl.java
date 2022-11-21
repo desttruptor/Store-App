@@ -40,12 +40,12 @@ public class AppsRepositoryImpl implements AppsRepository {
     }
 
     @Override
-    public Single<AppEntity> getAppByTitle(String title) {
+    public Single<AppEntity> getAppByTitleFromDB (String title) {
         return appsDao.getAppByTitle(title);
     }
 
     @Override
-    public void deleteAllApps() {
+    public void deleteAllAppsFromDB () {
         appsDao.deleteAllApps();
     }
 }

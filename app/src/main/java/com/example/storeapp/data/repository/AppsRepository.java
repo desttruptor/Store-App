@@ -12,11 +12,11 @@ import io.reactivex.rxjava3.core.Single;
  */
 public interface AppsRepository {
 
-    Single<List<GetAppsResponse>> getAvailableApps();
+    Single<List<GetAppsResponse>> getAvailableApps ();
 
-    Single<List<AppEntity>> getAppsListFromDB();
+    Single<List<AppEntity>> getAppsListFromDB ();
 
-    Single<AppEntity> getAppByTitle(String title);
+    Single<AppEntity> getAppByTitleFromDB (String title);
 
-    void deleteAllApps();
+    void deleteAllAppsFromDB ();
 }
