@@ -25,7 +25,7 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
     @NonNull
     private List<AppsListItemModel> displayedList = Collections.emptyList();
 
-    public AppsListAdapter (
+    public AppsListAdapter(
             @NonNull CustomConsumer<String> onItemClickCallback
     ) {
         this.onItemClickCallback = onItemClickCallback;
@@ -33,63 +33,25 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
 
     @NonNull
     @Override
-    public AppsListViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
+    public AppsListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         var view = LayoutInflater.from(parent.getContext()).inflate(R.layout.app_list_item, parent, false);
         return new AppsListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder (@NonNull AppsListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AppsListViewHolder holder, int position) {
         holder.bind(displayedList.get(position));
     }
 
     @Override
-    public int getItemCount () {
+    public int getItemCount() {
         return displayedList.size();
     }
 
-    public void submitNewList (List<AppsListItemModel> newList) {
+    public void submitNewList(List<AppsListItemModel> newList) {
         var callback = DiffUtil.calculateDiff(new AppsListDiffUtilCallback(displayedList, newList));
         displayedList = newList;
         callback.dispatchUpdatesTo(this);
-    }
-
-    private static class AppsListDiffUtilCallback extends DiffUtil.Callback {
-
-        @NonNull
-        private final List<AppsListItemModel> oldList;
-        @NonNull
-        private final List<AppsListItemModel> newList;
-
-        public AppsListDiffUtilCallback (
-                @NonNull List<AppsListItemModel> oldList,
-                @NonNull List<AppsListItemModel> newList
-        ) {
-            this.oldList = oldList;
-            this.newList = newList;
-        }
-
-        @Override
-        public int getOldListSize () {
-            return oldList.size();
-        }
-
-        @Override
-        public int getNewListSize () {
-            return newList.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame (int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).getTitle()
-                    .equals(newList.get(newItemPosition).getTitle());
-        }
-
-        @Override
-        public boolean areContentsTheSame (int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).getTitle()
-                    .equals(newList.get(newItemPosition).getTitle());
-        }
     }
 
     public class AppsListViewHolder extends RecyclerView.ViewHolder {
@@ -98,7 +60,7 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
         @NonNull
         private final RequestOptions requestOptions;
 
-        public AppsListViewHolder (@NonNull View itemView) {
+        public AppsListViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = AppListItemBinding.bind(itemView);
             requestOptions = new RequestOptions()
@@ -106,7 +68,7 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
                     .placeholder(R.drawable.ic_outline_get_app_24);
         }
 
-        public void bind (AppsListItemModel model) {
+        public void bind(AppsListItemModel model) {
             binding.getRoot().setOnClickListener((view) -> {
                 onItemClickCallback.accept(model.getTitle());
             });
@@ -116,6 +78,44 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
                     .load(model.getLogo200Link())
                     .apply(requestOptions)
                     .into(binding.ivAppLogo);
+        }
+    }
+
+    private static class AppsListDiffUtilCallback extends DiffUtil.Callback {
+
+        @NonNull
+        private final List<AppsListItemModel> oldList;
+        @NonNull
+        private final List<AppsListItemModel> newList;
+
+        public AppsListDiffUtilCallback(
+                @NonNull List<AppsListItemModel> oldList,
+                @NonNull List<AppsListItemModel> newList
+        ) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).getTitle()
+                    .equals(newList.get(newItemPosition).getTitle());
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).getTitle()
+                    .equals(newList.get(newItemPosition).getTitle());
         }
     }
 }

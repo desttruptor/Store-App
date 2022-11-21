@@ -3,6 +3,7 @@ package com.example.storeapp.ui;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.storeapp.StoreApplication;
 import com.example.storeapp.databinding.ActivityMainBinding;
@@ -25,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     public AppComponent getAppComponent() {
         return appComponent;
+    }
+
+    public void navigateToFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(activityMainBinding.fragmentContainer.getId(), fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void setUpFragment() {

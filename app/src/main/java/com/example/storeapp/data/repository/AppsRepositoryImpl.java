@@ -2,6 +2,8 @@ package com.example.storeapp.data.repository;
 
 import androidx.annotation.NonNull;
 
+import com.example.storeapp.data.filesystem.cache.AppEntity;
+import com.example.storeapp.data.filesystem.cache.AppsDao;
 import com.example.storeapp.data.network.AvailableAppsApi;
 import com.example.storeapp.data.network.GetAppsResponse;
 
@@ -15,14 +17,35 @@ public class AppsRepositoryImpl implements AppsRepository {
 
     @NonNull
     private final AvailableAppsApi availableAppsApi;
+    @NonNull
+    private final AppsDao appsDao;
 
     @Inject
-    public AppsRepositoryImpl (@NonNull AvailableAppsApi availableAppsApi) {
+    public AppsRepositoryImpl(
+            @NonNull AvailableAppsApi availableAppsApi,
+            @NonNull AppsDao appsDao
+    ) {
         this.availableAppsApi = availableAppsApi;
+        this.appsDao = appsDao;
     }
 
     @Override
-    public Single<List<GetAppsResponse>> getAvailableApps () {
+    public Single<List<GetAppsResponse>> getAvailableApps() {
         return availableAppsApi.getAppsData();
+    }
+
+    @Override
+    public Single<List<AppEntity>> getAppsListFromDB() {
+        return appsDao.getAppsListFromDB();
+    }
+
+    @Override
+    public Single<AppEntity> getAppByTitle(String title) {
+        return appsDao.getAppByTitle(title);
+    }
+
+    @Override
+    public void deleteAllApps() {
+        appsDao.deleteAllApps();
     }
 }

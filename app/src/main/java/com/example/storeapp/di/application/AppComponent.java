@@ -2,6 +2,7 @@ package com.example.storeapp.di.application;
 
 import android.app.Application;
 
+import com.example.storeapp.ui.fragments.AppDetailsFragment;
 import com.example.storeapp.ui.fragments.AppsListFragment;
 
 import dagger.BindsInstance;
@@ -11,10 +12,13 @@ import dagger.Component;
 @Component(modules = {
         AppModule.class,
         AppBindings.class,
-        NetworkModule.class
+        NetworkModule.class,
+        DatabaseModule.class
 })
 public interface AppComponent {
     void inject(AppsListFragment appsListFragment);
+
+    void inject(AppDetailsFragment appDetailsFragment);
 
     @Component.Builder
     interface Builder {

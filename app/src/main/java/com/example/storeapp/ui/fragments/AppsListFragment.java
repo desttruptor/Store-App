@@ -101,7 +101,7 @@ public class AppsListFragment extends Fragment {
     }
 
     private void onListItemClick(String s) {
-        //TODO
+        ((MainActivity) requireActivity()).navigateToFragment(AppDetailsFragment.newInstance(s));
     }
 
     private void onAppsListUpdate(List<AppsListItemModel> appsListItemModels) {
