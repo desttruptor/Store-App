@@ -34,10 +34,10 @@ public class AppModule {
     @ApplicationScope
     @Provides
     public RxSchedulers provideRxSchedulers(
-            @MainThreadScheduler Scheduler androidScheduler,
-            @IOScheduler Scheduler ioScheduler
+            @IOScheduler Scheduler ioScheduler,
+            @MainThreadScheduler Scheduler mainThreadScheduler
     ) {
-        return new RxSchedulers(androidScheduler, ioScheduler);
+        return new RxSchedulers(ioScheduler, mainThreadScheduler);
     }
 
     @ApplicationScope

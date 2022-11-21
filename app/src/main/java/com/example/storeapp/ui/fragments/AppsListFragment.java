@@ -22,7 +22,7 @@ import com.example.storeapp.domain.models.AppsListItemModel;
 import com.example.storeapp.ui.MainActivity;
 import com.example.storeapp.ui.adapters.AppsListAdapter;
 import com.example.storeapp.ui.viewmodels.AllAppsViewModel;
-import com.example.storeapp.ui.viewmodels.ViewModelFactory;
+import com.example.storeapp.ui.viewmodels.CommonViewModelFactory;
 import com.example.storeapp.utils.RxSchedulers;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -82,23 +82,20 @@ public class AppsListFragment extends Fragment {
     }
 
     private void setUpViewModel() {
-        ViewModelFactory factory = new ViewModelFactory(
+        CommonViewModelFactory factory = new CommonViewModelFactory(
                 AllAppsViewModel.class,
-                () -> new AllAppsViewModel(
-                        repository,
-                        rxSchedulers,
-                        mapper,
-                        resourceManager
-                ));
+                () -> new AllAppsViewModel(repository, rxSchedulers, mapper, resourceManager)
+        );
         viewModel = new ViewModelProvider(this, factory).get(AllAppsViewModel.class);
         viewModel.getAppsList().observe(getViewLifecycleOwner(), this::onAppsListUpdate);
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::onError);
+        viewModel.fetchAppsList();
     }
 
     private void setUpView() {
         binding.toolbar.setTitle(getString(R.string.toolbar_title));
         listAdapter = new AppsListAdapter(this::onListItemClick);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         binding.scrollableContent.setLayoutManager(layoutManager);
         binding.scrollableContent.setAdapter(listAdapter);
     }

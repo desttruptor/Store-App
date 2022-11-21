@@ -34,9 +34,10 @@ public class AllAppsViewModel extends ViewModel {
     private final AppsListMapper mapper;
     @NonNull
     private final ResourceManager resourceManager;
-
-    private MutableLiveData<List<AppsListItemModel>> appsList;
-    private MutableLiveData<String> errorMessage;
+    @NonNull
+    private final MutableLiveData<List<AppsListItemModel>> appsList = new MutableLiveData<>();
+    @NonNull
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     @Inject
     public AllAppsViewModel (
@@ -71,11 +72,11 @@ public class AllAppsViewModel extends ViewModel {
         Observable.fromIterable(getAppsResponses)
                 .map(mapper::convert)
                 .toList()
-                .blockingSubscribe(appsListItemModels -> appsList.setValue(appsListItemModels));
+                .blockingSubscribe(appsList::setValue);
     }
 
     private void onErrorLoad (Throwable throwable) {
-        errorMessage.setValue(resourceManager.getString(R.string.something_wrong_error));
+        errorMessage.postValue(resourceManager.getString(R.string.something_wrong_error));
     }
 
     public LiveData<List<AppsListItemModel>> getAppsList () {
