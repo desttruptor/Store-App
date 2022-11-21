@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Store App</string>
     <string name="something_wrong_error">Что-то пошло не так :(</string>
+    <string name="toolbar_title">Приложения</string>
+    <string name="retry">Еще раз</string>
 </resources>

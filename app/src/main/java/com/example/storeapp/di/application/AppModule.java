@@ -1,7 +1,10 @@
 package com.example.storeapp.di.application;
 
-import com.example.storeapp.StoreApplication;
+import android.app.Application;
+
 import com.example.storeapp.data.resourcemanager.ResourceManagerImpl;
+import com.example.storeapp.di.qualifiers.IOScheduler;
+import com.example.storeapp.di.qualifiers.MainThreadScheduler;
 import com.example.storeapp.domain.mappers.AppsListMapper;
 import com.example.storeapp.utils.RxSchedulers;
 
@@ -16,34 +19,36 @@ public class AppModule {
 
     @ApplicationScope
     @Provides
-    public Scheduler provideMainThreadScheduler () {
+    @MainThreadScheduler
+    public Scheduler provideMainThreadScheduler() {
         return AndroidSchedulers.mainThread();
     }
 
     @ApplicationScope
+    @IOScheduler
     @Provides
-    public Scheduler provideIOScheduler () {
+    public Scheduler provideIOScheduler() {
         return Schedulers.io();
     }
 
     @ApplicationScope
     @Provides
-    public RxSchedulers provideRxSchedulers (
-            Scheduler androidScheduler,
-            Scheduler ioScheduler
+    public RxSchedulers provideRxSchedulers(
+            @MainThreadScheduler Scheduler androidScheduler,
+            @IOScheduler Scheduler ioScheduler
     ) {
         return new RxSchedulers(androidScheduler, ioScheduler);
     }
 
     @ApplicationScope
     @Provides
-    public ResourceManagerImpl provideResourceManagerImpl (StoreApplication context) {
+    public ResourceManagerImpl provideResourceManagerImpl(Application context) {
         return new ResourceManagerImpl(context);
     }
 
     @ApplicationScope
     @Provides
-    public AppsListMapper provideAppsListMapper () {
+    public AppsListMapper provideAppsListMapper() {
         return new AppsListMapper();
     }
 }

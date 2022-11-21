@@ -4,40 +4,31 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.Map;
+import com.example.storeapp.utils.CustomSupplier;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+public class dViewModelFactory implements ViewModelProvider.Factory {
 
-public class ViewModelFactory implements ViewModelProvider.Factory {
+    @NonNull
+    private final CustomSupplier<? extends ViewModel> vmInstance;
+    @NonNull
+    private final Class<? extends ViewModel> supplier;
 
-    private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
 
-    @Inject
-    public ViewModelFactory (@NonNull Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
-        this.creators = creators;
+    public ViewModelFactory(
+            @NonNull Class<? extends ViewModel> viewModelClass,
+            @NonNull CustomSupplier<? extends ViewModel> supplier
+    ) {
+        this.vmInstance = supplier;
+        this.supplier = viewModelClass;
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
-    public <T extends ViewModel> T create (@NonNull Class<T> modelClass) {
-        Provider<ViewModel> creator = creators.get(modelClass);
-        if (creator == null) {
-            for (Class<? extends ViewModel> key : creators.keySet()) {
-                if (modelClass.isAssignableFrom(key)) {
-                    creator = creators.get(key);
-                    break;
-                }
-            }
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        if (!modelClass.isAssignableFrom(supplier)) {
+            throw new IllegalArgumentException("ViewModel type is non assignable");
         }
-        if (creator == null) {
-            throw new IllegalArgumentException("Unknown model class " + modelClass);
-        }
-        try {
-            return (T) creator.get();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return (T) vmInstance.get();
     }
 }

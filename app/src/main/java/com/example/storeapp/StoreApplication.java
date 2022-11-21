@@ -1,16 +1,23 @@
 package com.example.storeapp;
 
+import android.app.Application;
+
+import com.example.storeapp.di.application.AppComponent;
 import com.example.storeapp.di.application.DaggerAppComponent;
 
-import dagger.android.AndroidInjector;
-import dagger.android.DaggerApplication;
+public class StoreApplication extends Application {
 
-public class StoreApplication extends DaggerApplication {
+    private AppComponent appComponent;
 
     @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector () {
-        return DaggerAppComponent.builder()
+    public void onCreate() {
+        super.onCreate();
+        appComponent = DaggerAppComponent.builder()
                 .application(this)
                 .build();
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 }
