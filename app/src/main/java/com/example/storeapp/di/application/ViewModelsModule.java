@@ -29,10 +29,14 @@ public class ViewModelsModule {
 
     @Provides
     public AppDetailsViewModel provideAppDetailsViewModel (
-            ResourceManager resourceManager
+            ResourceManager resourceManager,
+            RxSchedulers rxSchedulers,
+            AppsRepository appsRepository
     ) {
         return new AppDetailsViewModel(
-                resourceManager
+                resourceManager,
+                appsRepository,
+                rxSchedulers
         );
     }
 }
