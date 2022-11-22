@@ -4,6 +4,7 @@ import com.example.storeapp.data.repository.AppsRepository;
 import com.example.storeapp.data.resourcemanager.ResourceManager;
 import com.example.storeapp.domain.mappers.AppsListMapper;
 import com.example.storeapp.ui.viewmodels.AllAppsViewModel;
+import com.example.storeapp.ui.viewmodels.AppDetailsViewModel;
 import com.example.storeapp.utils.RxSchedulers;
 
 import dagger.Module;
@@ -22,6 +23,15 @@ public class ViewModelsModule {
                 appsRepository,
                 rxSchedulers,
                 appsListMapper,
+                resourceManager
+        );
+    }
+
+    @Provides
+    public AppDetailsViewModel provideAppDetailsViewModel (
+            ResourceManager resourceManager
+    ) {
+        return new AppDetailsViewModel(
                 resourceManager
         );
     }
