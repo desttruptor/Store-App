@@ -13,19 +13,18 @@ import dagger.Component;
         AppModule.class,
         AppBindings.class,
         NetworkModule.class,
-        DatabaseModule.class,
         ViewModelsModule.class
 })
 public interface AppComponent {
-    void inject(AppsListFragment appsListFragment);
+    void inject (AppsListFragment appsListFragment);
 
-    void inject(AppDetailsFragment appDetailsFragment);
+    void inject (AppDetailsFragment appDetailsFragment);
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        Builder application(Application application);
+        Builder application (Application application);
 
-        AppComponent build();
+        AppComponent build ();
     }
 }
